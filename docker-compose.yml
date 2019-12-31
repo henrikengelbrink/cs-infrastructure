@@ -1,0 +1,31 @@
+version: '3'
+services:
+  vernemq:
+    image: vernemq/vernemq
+    container_name: vernemq
+    ports: 
+      - 1883:1883
+      - 8888:8888
+      - 8080:8080
+    environment: 
+      DOCKER_VERNEMQ_ACCEPT_EULA: "yes"
+      DOCKER_VERNEMQ_ALLOW_ANONYMOUS: "on"
+  image-proxy:
+    image: hengel2810/cs-image-proxy
+    container_name: image-proxy
+    ports: 
+      - 9090:8080
+    environment:
+      DO_SPACES_KEY: "OCMHWX3VMW4AOK7UIS75"
+      DO_SPACES_SECRET: "IQuc6jif0TTdMTrxloaosczd9u1u121wZBS1tHuq1Kg"
+  app-service:
+    image: hengel2810/cs-app-service
+    container_name: app-service
+    ports:
+      - 8090:8080
+    environment: 
+      POSTGRES_HOST: "db-postgresql-fra1-33864-do-user-5039378-0.db.ondigitalocean.com"
+      POSTGRES_PORT: "25060"
+      POSTGRES_USER: "doadmin"
+      POSTGRES_PASSWORD: "fgeejpq5t00nmwwh"
+      POSTGRES_DATABASE: "defaultdb"
