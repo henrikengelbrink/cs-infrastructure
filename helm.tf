@@ -29,10 +29,17 @@ provider "helm" {
   }
 }
 
+data "helm_repository" "appscode_helm_repo" {
+  name = "appscode"
+  url  = "https://charts.appscode.com/stable/"
+}
+
 resource "helm_release" "voyager_ingress_controller" {
-    name = "voyager-ingress-controller"
-    chart = "stable/voyager"
-    namespace = "http"
+    repository = "${data.helm_repository.appscode_helm_repo.metadata.0.name}"
+    name = "ingress-controller"
+    chart = "appscode/voyager"
+    version = "v12.0.0-rc.1"
+    namespace = "default"
     set {
       name  = "ingressClass"
       value = "voyager-ingress"
@@ -44,6 +51,5 @@ resource "helm_release" "voyager_ingress_controller" {
     depends_on = [
       "kubernetes_cluster_role_binding.tiller",
       "kubernetes_service_account.tiller",
-      "null_resource.voyager_secret"
     ]
 }

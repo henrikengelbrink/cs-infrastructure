@@ -1,9 +1,10 @@
 data "kubernetes_service" "k8s_ingress" {
   metadata {
-    name = "voyager-ingress"
-    namespace = "http"
+    name = "voyager-test-ingress"
+    namespace = "default"
   }
     depends_on = [
+      "null_resource.load_balancer_delay",
       "helm_release.voyager_ingress_controller",
       "null_resource.ingress"
     ]

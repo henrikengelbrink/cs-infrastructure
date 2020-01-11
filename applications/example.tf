@@ -1,7 +1,7 @@
 resource "kubernetes_service" "terraform-example-app-service" {
   metadata {
     name = "terraform-example-app"
-    namespace = "http"
+    namespace = "default"
   }
   spec {
     selector = {
@@ -17,7 +17,7 @@ resource "kubernetes_service" "terraform-example-app-service" {
 resource "kubernetes_deployment" "terraform-example-app-deployment" {
   metadata {
     name = "terraform-example-app"
-    namespace = "http"
+    namespace = "default"
     labels = {
       app = "terraform-example-app"
     }

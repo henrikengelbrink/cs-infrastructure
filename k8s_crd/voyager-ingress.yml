@@ -1,30 +1,23 @@
 apiVersion: voyager.appscode.com/v1beta1
 kind: Ingress
 metadata:
-  name: ingress
-  namespace: http
+  name: test-ingress
+  namespace: default
   annotations:
     ingress.appscode.com/type: LoadBalancer
     kubernetes.io/ingress.class: voyager-ingress
 spec:
+  backend:
+    serviceName: terraform-example-app
+    servicePort: 80
   tls:
-  - hosts:
-    - example.engelbrink.dev
-    - mqtt.engelbrink.dev
-    ref:
-      kind: Secret
-      name: tls-engelbrink-dev
+    - secretName: cert-example-engelbrink-dev
+      hosts:
+      - example.engelbrink.dev
   rules:
   - host: example.engelbrink.dev
     http:
       paths:
-      - path: /
-        backend:
+      - backend:
           serviceName: terraform-example-app
           servicePort: 80
-  - host: mqtt.engelbrink.dev
-    tcp:
-      port: 8883
-      backend:
-        serviceName: vernemq-cluster
-        servicePort: 1883
