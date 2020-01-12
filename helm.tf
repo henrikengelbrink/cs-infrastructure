@@ -53,3 +53,25 @@ resource "helm_release" "voyager_ingress_controller" {
       "kubernetes_service_account.tiller",
     ]
 }
+
+data "helm_repository" "helm_repo_vernemq" {
+    name = "vernemq"
+    url  = "https://vernemq.github.io/docker-vernemq"
+}
+
+resource "helm_release" "vernemq_cluster" {
+    name = "vernemq-cluster"
+    chart = "vernemq/vernemq"
+    namespace = "default"
+    set {
+      name  = "replicaCount"
+      value = 2
+    }
+    values = [
+      "${file("values.yml")}"
+    ]
+    depends_on = [
+      "kubernetes_cluster_role_binding.tiller",
+      "kubernetes_service_account.tiller"
+    ]
+}

@@ -28,5 +28,11 @@ resource "digitalocean_record" "cluster_domain_sub_example" {
   type   = "A"
   name   = "example"
   value  = "${data.kubernetes_service.k8s_ingress.load_balancer_ingress.0.ip}"
-#   value = "0.0.0.0"
+}
+
+resource "digitalocean_record" "cluster_domain_sub_mqtt" {
+  domain = "${data.digitalocean_domain.dns_engelbrink_dev.name}"
+  type   = "A"
+  name   = "mqtt"
+  value  = "${data.kubernetes_service.k8s_ingress.load_balancer_ingress.0.ip}"
 }

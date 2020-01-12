@@ -11,9 +11,10 @@ spec:
     serviceName: terraform-example-app
     servicePort: 80
   tls:
-    - secretName: cert-example-engelbrink-dev
+    - secretName: cert-engelbrink-dev
       hosts:
       - example.engelbrink.dev
+      - mqtt.engelbrink.dev
   rules:
   - host: example.engelbrink.dev
     http:
@@ -21,3 +22,9 @@ spec:
       - backend:
           serviceName: terraform-example-app
           servicePort: 80
+  - host: mqtt.engelbrink.dev
+    tcp:
+      port: 8883
+      backend:
+        serviceName: vernemq-cluster
+        servicePort: 1883
