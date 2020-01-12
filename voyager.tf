@@ -8,7 +8,7 @@ resource "helm_release" "voyager_ingress_controller" {
     name = "ingress-controller"
     chart = "appscode/voyager"
     version = "v12.0.0-rc.1"
-    namespace = "default"
+    namespace = "voyager"
     set {
       name  = "ingressClass"
       value = "voyager-ingress"
@@ -23,10 +23,9 @@ resource "helm_release" "voyager_ingress_controller" {
     ]
 }
 
-
 resource "null_resource" "acme_secret" {
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig ./kubeconfig.yaml --namespace=default create secret generic acme-account --from-literal=ACME_EMAIL=hengel2810@gmail.com"
+    command = "kubectl --kubeconfig ./kubeconfig.yaml --namespace=voyager create secret generic acme-account --from-literal=ACME_EMAIL=hengel2810@gmail.com"
   }
   depends_on = [
     "local_file.kubeconfig",
@@ -36,7 +35,7 @@ resource "null_resource" "acme_secret" {
 
 resource "null_resource" "dns_digital_ocean_secret" {
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig ./kubeconfig.yaml --namespace=default create secret generic do-dns-secret --from-literal=DO_AUTH_TOKEN=${var.do_token}"
+    command = "kubectl --kubeconfig ./kubeconfig.yaml --namespace=voyager create secret generic do-dns-secret --from-literal=DO_AUTH_TOKEN=${var.do_token}"
   }
   depends_on = [
     "null_resource.acme_secret"
@@ -46,7 +45,7 @@ resource "null_resource" "dns_digital_ocean_secret" {
 
 resource "null_resource" "ingress" {
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig ./kubeconfig.yaml --namespace=default apply -f ./k8s_crd/voyager-ingress.yml"
+    command = "kubectl --kubeconfig ./kubeconfig.yaml --namespace=voyager apply -f ./k8s_crd/voyager-ingress.yml"
   }
   depends_on = [
     "null_resource.acme_secret"
@@ -64,7 +63,7 @@ resource "null_resource" "load_balancer_delay" {
 
 resource "null_resource" "voyager_cert" {
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig ./kubeconfig.yaml --namespace=default apply -f ./k8s_crd/voyager-cert.yml"
+    command = "kubectl --kubeconfig ./kubeconfig.yaml --namespace=voyager apply -f ./k8s_crd/voyager-cert.yml"
   }
   depends_on = [
     "digitalocean_record.cluster_domain_sub_example"

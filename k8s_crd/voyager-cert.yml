@@ -1,12 +1,12 @@
 apiVersion: voyager.appscode.com/v1beta1
 kind: Certificate
 metadata:
-  name: engelbrink-dev-cert
-  namespace: default
+  name: main-domain-cert
+  namespace: voyager
 spec:
   domains:
-  - example.engelbrink.dev
-  - mqtt.engelbrink.dev
+  - example.e28.dev
+  - mqtt.e28.dev
   acmeUserSecretName: acme-account
   challengeProvider:
     dns:
@@ -14,4 +14,4 @@ spec:
       credentialSecretName: do-dns-secret
   storage:
     secret:
-      name: cert-engelbrink-dev
+      name: cert-main-domain
