@@ -54,3 +54,12 @@ resource "helm_release" "metricbeat" {
       "helm_release.kibana"
     ]
 }
+
+resource "null_resource" "metricbeat_dashboards" {
+  provisioner "local-exec" {
+    command = "./scripts/metricbeat-dashboards.sh"
+  }
+  depends_on = [
+    "helm_release.metricbeat"
+  ]
+}

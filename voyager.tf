@@ -40,7 +40,6 @@ resource "null_resource" "dns_digital_ocean_secret" {
   depends_on = [
     "null_resource.acme_secret"
   ]
-
 }
 
 resource "null_resource" "ingress" {

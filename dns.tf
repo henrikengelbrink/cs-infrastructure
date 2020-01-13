@@ -30,6 +30,9 @@ resource "digitalocean_record" "cluster_domain_sub_example" {
   type   = "A"
   name   = "example"
   value  = "${data.kubernetes_service.k8s_ingress.load_balancer_ingress.0.ip}"
+  depends_on = [
+    "digitalocean_domain.dns_cluster_domain"
+  ]
 }
 
 resource "digitalocean_record" "cluster_domain_sub_mqtt" {
@@ -37,4 +40,7 @@ resource "digitalocean_record" "cluster_domain_sub_mqtt" {
   type   = "A"
   name   = "mqtt"
   value  = "${data.kubernetes_service.k8s_ingress.load_balancer_ingress.0.ip}"
+  depends_on = [
+    "digitalocean_domain.dns_cluster_domain"
+  ]
 }
