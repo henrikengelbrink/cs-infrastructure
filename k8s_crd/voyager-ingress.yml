@@ -15,12 +15,13 @@ spec:
       hosts:
       - example.e28.dev
       - mqtt.e28.dev
+      - kiali.e28.dev
   rules:
   - host: example.e28.dev
     http:
       paths:
       - backend:
-          serviceName: terraform-example-app.default
+          serviceName: terraform-example-app.http
           servicePort: 80
   - host: mqtt.e28.dev
     tcp:
@@ -28,3 +29,16 @@ spec:
       backend:
         serviceName: vernemq-cluster.mqtt
         servicePort: 1883
+  - host: app-service.e28.dev
+    http:
+      paths:
+      - backend:
+          serviceName: app-service.http
+          servicePort: 9080
+  - host: image-proxy.e28.dev
+    http:
+      paths:
+      - backend:
+          serviceName: image-proxy.http
+          servicePort: 8080
+

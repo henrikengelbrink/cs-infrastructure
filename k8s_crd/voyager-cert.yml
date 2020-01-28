@@ -5,8 +5,8 @@ metadata:
   namespace: voyager
 spec:
   domains:
-  - example.e28.dev
-  - mqtt.e28.dev
+  - 'e28.dev'
+  - '*.e28.dev'
   acmeUserSecretName: acme-account
   challengeProvider:
     dns:
