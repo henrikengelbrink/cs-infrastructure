@@ -15,7 +15,9 @@ spec:
       hosts:
       - example.e28.dev
       - mqtt.e28.dev
-      - kiali.e28.dev
+      - mqttapi.e28.dev
+      - app-service.e28.dev
+      - image-proxy.e28.dev
   rules:
   - host: example.e28.dev
     http:
@@ -29,6 +31,12 @@ spec:
       backend:
         serviceName: vernemq-cluster.mqtt
         servicePort: 1883
+  - host: mqttapi.e28.dev
+    http:
+      paths:
+      - backend:
+          serviceName: vernemq-dashboard.mqtt
+          servicePort: 8888
   - host: app-service.e28.dev
     http:
       paths:
@@ -41,4 +49,3 @@ spec:
       - backend:
           serviceName: image-proxy.http
           servicePort: 8080
-

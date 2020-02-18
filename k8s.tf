@@ -1,7 +1,7 @@
 resource "digitalocean_kubernetes_cluster" "k8s_cluster" {
   name    = "cs-cluster"
   region  = "${var.region}"
-  version = "1.15.5-do.3"
+  version = "1.15.9-do.0"
 
   node_pool {
     name       = "worker-pool"
