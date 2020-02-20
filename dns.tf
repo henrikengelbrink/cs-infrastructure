@@ -48,7 +48,7 @@ resource "digitalocean_record" "cluster_domain_sub_mqtt" {
 resource "digitalocean_record" "cluster_domain_sub_mqtt_api" {
   domain = "${digitalocean_domain.dns_cluster_domain.name}"
   type   = "A"
-  name   = "mqttapi"
+  name   = "vernemq"
   value  = "${data.kubernetes_service.k8s_ingress.load_balancer_ingress.0.ip}"
   depends_on = [
     "digitalocean_domain.dns_cluster_domain"
